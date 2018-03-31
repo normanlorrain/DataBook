@@ -5,11 +5,21 @@
     "tasks": [
         {
             "label": "DataLogger run",
-            "type": "shell",
-            "command": "python ..\\databook\\databook.py --root ${workspaceFolder}\\doc",
+            "type": "process",
+            "command": "python",
+            "args": [
+                "${workspaceFolder}\\databook.py",
+                "${workspaceFolder}\\doc",
+                "${workspaceFolder}\\doc\\output\\sample 2.pdf"
+            ],
             "group": {
                 "kind": "build",
                 "isDefault": true
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
             }
         }
     ]

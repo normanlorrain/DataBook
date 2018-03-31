@@ -8,26 +8,24 @@ import pdf
 
 
 class Linker:
-    def __init__(self,  authoredFiles, referenceFiles, output):
+    def __init__(self,  authoredFiles, referenceFiles,title, output):
         datestamp = datetime.date.today()
-
+        self.title = title
         self.build =  authoredFiles
         self.buildRef = referenceFiles
         self.datestamp = datestamp
-        self.output = output
-        self.outfile = os.path.join( output, f'ElmTree DataBook {datestamp}.pdf' )
-        self.outfileReferences = os.path.join( self.output, f'ElmTree DataBook References {self.datestamp}.pdf' )
-        self.outfileWithReferences = os.path.join( output, f'ElmTree DataBook {datestamp} With References.pdf' )
+        self.outfileNoReferences = os.path.join(self.build, '~databook_no_references.pdf' )
+        self.outfileWithReferences = f'{output}'
 
     def __enter__(self):
         return self
     def __exit__(self, exct_type, exce_value, traceback):
         log.info( 'cleaning up')
-        if os.path.isfile(self.outfile):
-            try:
-                os.remove( self.outfile )
-            except Exception as e:
-                log.exception (e)
+        # if os.path.isfile(self.outfileNoReferences):
+        #     try:
+        #         os.remove( self.outfileNoReferences )
+        #     except Exception as e:
+        #         log.exception (e)
 
 
     def linkAuthored(self, authoredFiles):
@@ -51,7 +49,7 @@ class Linker:
             
             sectionName = match.group(3)
             documentName = match.group(4)
-            watermarkText = f"{sectionNumber}.{documentNumber} {sectionName} - {documentName}                  ElmTree DataBook, {self.datestamp}, page {pageNumber}"
+            watermarkText = f"{sectionNumber}.{documentNumber} {sectionName} - {documentName}                  {self.title}, {self.datestamp}, page {pageNumber}"
 
             bookmarkPage = pageNumber # Save this page number for the bookmark below
             for page in pdf.pdfPageList(original):
@@ -69,18 +67,21 @@ class Linker:
 
 
         # finally, write "pdfOutput" to a real file
-        outputPDFfile = open(self.outfile, "wb")
+        log.debug(f'linking authored files into {self.outfileNoReferences}')
+        outputPDFfile = open(self.outfileNoReferences, "wb")
         pdfOutput.write(outputPDFfile)
         outputPDFfile.close()	
 
 
     # Watermarking is done in the compile stage for the references.
     def linkReferences(self, referenceFiles):
+        log.debug(f'linkReferences()')
         fileList = ' '.join(map('"{0}"'.format, referenceFiles)) 
         log.debug(fileList)
-        cmd = f'pdftk "{self.outfile}" attach_files {fileList} output "{self.outfileWithReferences}"'
+        cmd = f'pdftk "{self.outfileNoReferences}" attach_files {fileList} output "{self.outfileWithReferences}"'
         log.debug(cmd)
         try:
-            subprocess.run(cmd, shell=True)
+            subprocess.run(cmd, check=True)
         except Exception as e:
             log.exception (e)
+            raise

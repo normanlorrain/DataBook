@@ -26,7 +26,7 @@ def generateWatermarkPage( watermarkText, cropBox = None ):
     can = canvas.Canvas(packet, pagesize=letter)
     can.setFont('Helvetica-Oblique', 8)
     if landscapeMode:
-        log.info("========================  LANDSCAPE")
+        log.debug("========================  LANDSCAPE")
         can.rotate(-90)
         
         x = -int(y2-offset) # Think draw, then rotate

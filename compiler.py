@@ -20,7 +20,6 @@ class Compiler:
         self.root = root
         self.build = build
         self.buildRef = buildRef
-        self.output = output 
         self.contents = contents.Contents()
         self.datestamp = datetime.date.today()
 
@@ -34,7 +33,7 @@ class Compiler:
     #     weasyprint: won't install on my python
     #     prince: works, but has small icon on first page.  Won't to page breaks.
     #     context: broken
-    #     pdfroff: not available on WIndows
+    #     pdfroff: not available on Windows
     def compileMarkdown(self,directory, src,tgt):
         src = join(directory, src)
         tgt = join(self.build, tgt)
@@ -43,9 +42,10 @@ class Compiler:
         cmd = f'pandoc "{src}" "{metadata}" --metadata=date:{self.datestamp} --pdf-engine=pdflatex -o "{tgt}"'
         log.debug(cmd)
         try:
-            subprocess.run(cmd)
+            subprocess.run(cmd, check = True)
         except:
-            log.debug ( f"{cmd} failed")
+            log.exception ( f"Call to pandoc failed.")
+            raise
 
 
 
@@ -103,12 +103,12 @@ class Compiler:
 
 
     def createTOC(self):
-        with open(join(self.root, ".toc.md" ), 'w') as f:
+        with open(join(self.build, ".toc.md" ), 'w') as f:
             f.write(contents.header)
             for line in self.contents.markdownLines():
                 f.write(line)
             f.write("\n\n")
-        self.compileMarkdown( self.root, ".toc.md", "00-01 [Intro] [Table of Contents].pdf" )
+        self.compileMarkdown( self.build, ".toc.md", "00-01 [Intro] [Table of Contents].pdf" )
 
         
     def processMarkdown(self,sectionNumber, sectionName, directory, markdownFiles):
@@ -117,7 +117,7 @@ class Compiler:
             if match:
                 number = int(match.group(1))
                 name =  match.group(2).strip()
-                log.info( f'markdown file: {f}')
+                log.info( f'    {f} (markdown file)')
                 self.compileMarkdown( directory, f, f"{sectionNumber:02}-{number:02} [{sectionName}] [{name}].pdf" )
                 self.contents.addSubSection(sectionNumber, number, name )
             else:
@@ -130,7 +130,7 @@ class Compiler:
             if match:
                 number = int(match.group(1))
                 name =  match.group(2).strip()
-                log.info(f'prepared PDF file: {f}')
+                log.info(f'    {f} (prepared PDF file)')
                 src = join(directory,f)
                 dst = join(self.build, f"{sectionNumber:02}-{number:02} [{sectionName}] [{name}].pdf" )
                 shutil.copy(src, dst)
@@ -145,7 +145,7 @@ class Compiler:
                 if match:
                     number = int(match.group(1))
                     name =  match.group(2).strip()
-                    log.info(f'directly edited PDF: {f}')
+                    log.info(f'    {f} (directly edited PDF)')
                     src = join(directory,f)
                     dst = join(self.build, f"{sectionNumber:02}-{number:02} [{sectionName}] [{name}].pdf" )
                     shutil.copy(src, dst)
@@ -159,9 +159,9 @@ class Compiler:
             if match:
                 documentNumber = int(match.group(1))
                 documentName =  match.group(2).strip()
-                log.info(f'reference document: {srcFile}')
+                log.info(f'    {srcFile} (reference document/attachment)')
                 watermarkText = f"REFERENCE DOCUMENT:  {sectionNumber}.{documentNumber} {sectionName} - {documentName}                  ElmTree DataBook, {self.datestamp} "
-                watermarkPdf = os.path.join(tempfile.gettempdir(),'~elmtree_databook_temp.pdf' )
+                watermarkPdf = os.path.join(tempfile.gettempdir(),'~databook_temp.pdf' )
                 pdf.generateMultipageWatermarkFile( watermarkPdf, watermarkText, os.path.join( directory, srcFile ) )
 
                 # src = join(directory,srcFile)
@@ -173,9 +173,10 @@ class Compiler:
                 cmd = f'pdftk "{join(directory,srcFile)}" multistamp "{watermarkPdf}" output "{dst}"'
                 log.debug(cmd)
                 try:
-                    subprocess.run(cmd, shell=True)
+                    subprocess.run(cmd, check=True)
                 except Exception as e:
                     log.exception (e)
+                    raise
 
 
             else:
@@ -185,70 +186,45 @@ class Compiler:
 
 
     def processFiles( self, directory, files):
-        if '#' in directory:
-            log.debug(f'{directory}')
-            # log.debug(directory, ':', files)
+        log.debug(f'{directory}:{files}')
 
-            sectionNumber = self.getSectionNumber(directory)
-            sectionName = self.getSectionName(directory)
+        sectionNumber = self.getSectionNumber(directory)
+        sectionName = self.getSectionName(directory)
 
-            self.contents.addSection( sectionNumber, sectionName )
+        self.contents.addSection( sectionNumber, sectionName )
 
-            markdownFiles = list(filter(lambda x: x.endswith('.md'), files ))
-            pdfFiles = list(filter(lambda x: x.endswith('.pdf'), files))
+        markdownFiles = list(filter(lambda x: x.endswith('.md'), files ))
+        pdfFiles = list(filter(lambda x: x.endswith('.pdf'), files))
 
-            preparedFiles = list(filter(lambda x: "&" in x, pdfFiles ) )
-            directFiles =   list(filter(lambda x: "%" in x, pdfFiles ))
-            downloadFiles = list(filter(lambda x: "$" in x, pdfFiles ))
+        preparedFiles = list(filter(lambda x: "&" in x, pdfFiles ) )
+        directFiles =   list(filter(lambda x: "%" in x, pdfFiles ))
+        downloadFiles = list(filter(lambda x: "$" in x, pdfFiles ))
 
-            otherFiles = list(set(pdfFiles) -set(preparedFiles) - set(directFiles) - set(downloadFiles)	)
+        otherFiles = list(set(pdfFiles) -set(preparedFiles) - set(directFiles) - set(downloadFiles)	)
 
-            if otherFiles:
-                log.warn(f'in directory {directory}...' )
-                for o in otherFiles:
-                    log.warn(f'file not recognised {o}' )
+        if otherFiles:
+            log.warn(f'in directory {directory}...' )
+            for o in otherFiles:
+                log.warn(f'file not recognised {o}' )
 
-            # log.debug(markdownFiles)
-            # log.debug(pdfFiles)
-            # log.debug(otherFiles)
+        # log.debug(markdownFiles)
+        # log.debug(pdfFiles)
+        # log.debug(otherFiles)
 
-            self.processMarkdown( sectionNumber, sectionName, directory, markdownFiles )
-            self.processPreparedFiles( sectionNumber, sectionName, directory, preparedFiles )
-            self.processDirectFiles( sectionNumber, sectionName, directory, directFiles )
-            self.processDownloadFiles( sectionNumber, sectionName, directory, downloadFiles )
-
-
-
-
-
-
-
-
-            # for pdfFile in pdfFiles:
-            # 	match = re.match('(#(\d+)(.*?))\.pdf',pdfFile)
-            # 	if match:
-            # 		#log.debug('Found PDF:', pdfFile)
-            # 		srcFile = self.findSourceFile(otherFiles, match.group(1))
-            # 		if srcFile:
-            # 			self.checkTimes( directory, srcFile, pdfFile )
-
-            # 		number = int(match.group(2))
-            # 		name = match.group(3).strip()
-            # 		shutil.copyfile(join(directory, pdfFile), 
-            # 			join(self.build,"#{sectionNumber:02}-{number:02}  [{sectionName}] [{name}].pdf".format(
-            # 				name=name, number = number, sectionName = sectionName, sectionNumber = sectionNumber)))
-
-            # 	else:
-            # 		log.debug( f'WARNING, wrong format: {pdfFile}' )
+        self.processMarkdown( sectionNumber, sectionName, directory, markdownFiles )
+        self.processPreparedFiles( sectionNumber, sectionName, directory, preparedFiles )
+        self.processDirectFiles( sectionNumber, sectionName, directory, directFiles )
+        self.processDownloadFiles( sectionNumber, sectionName, directory, downloadFiles )
 
     def compile(self):
         _,directories,_  = next(os.walk(self.root))
 
         
         for directory in directories:  # Get top-level directories
-            log.info(f'compiling directory: {directory}')
-            _,_,files = next( os.walk(directory) )  # Get files in each
-            self.processFiles(directory, files)
+            if '#' in directory:
+                log.info(f'{directory} (directory/section)')
+                _,_,files = next( os.walk(directory) )  # Get files in each
+                self.processFiles(directory, files)
         self.createTOC()
 
 

@@ -1,0 +1,16 @@
+
+---
+# This file contains common attributes used by Pandoc in generating our PDF.
+#
+#
+
+fontfamily: librecaslon
+# Font family listed here: http://www.tug.dk/FontCatalogue/
+geometry: margin=2cm
+
+tags: [nothing, nothingness]
+#abstract: This document contains IT configuration and data sheets for ElmTree Clinic.  
+
+...
+
+\pagenumbering{gobble}

@@ -58,9 +58,10 @@ def _compileMarkdown(directory, src,tgt):
     cmd = f'pandoc "{src}" "{metadata}" --pdf-engine=xelatex -o "{tgt}"'
     log.debug(cmd)
     try:
-        subprocess.run(cmd)
+        subprocess.run(cmd, check=True)
     except:
         log.exception ( f"{cmd} failed")
+        raise
 
 def test(directory):
     os.chdir(directory)

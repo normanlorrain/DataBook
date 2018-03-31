@@ -4,3 +4,4 @@ venv/
 .cache/
 .*
 *.log
+doc/output/sample.pdf
