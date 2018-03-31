@@ -47,7 +47,7 @@ class Contents:
         for section in sorted(self.sections.keys()):
             yield f'\n**{self.sections[section].number} {self.sections[section].name}**\n'
             for subsection in sorted(self.sections[section].subsections.keys()):
-                yield f'\n{self.sections[section].subsections[subsection].number} {self.sections[section].subsections[subsection].name} \n'
+                yield f'\n\\quad{self.sections[section].subsections[subsection].number} {self.sections[section].subsections[subsection].name} \n'
 
 
 def _compileMarkdown(directory, src,tgt):
