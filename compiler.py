@@ -242,11 +242,13 @@ class Compiler:
             # 		log.debug( f'WARNING, wrong format: {pdfFile}' )
 
     def compile(self):
-        for directory,_,files in os.walk(self.root):
+        _,directories,_  = next(os.walk(self.root))
+
+        
+        for directory in directories:  # Get top-level directories
+            log.info(f'compiling directory: {directory}')
+            _,_,files = next( os.walk(directory) )  # Get files in each
             self.processFiles(directory, files)
-
-            
-
         self.createTOC()
 
 

@@ -67,7 +67,26 @@ def main(root):
 
 
 if __name__ == '__main__':
-    log.basicConfig(stream=sys.stdout, level=log.DEBUG, format='%(levelname)8s: ''%(filename)12s: ''%(lineno)4d:\t''%(message)s')
+    # log.basicConfig(stream=sys.stdout, level=log.DEBUG, format='%(levelname)8s: ''%(filename)12s: ''%(lineno)4d:\t''%(message)s')
+
+
+    # set up logging to file - see previous section for more details
+    log.basicConfig(level=log.DEBUG,
+                        format='%(levelname)8s: ''%(filename)12s: ''%(lineno)4d:\t''%(message)s',
+                        filename='databook.log',
+                        filemode='w')
+
+    # define a Handler which writes INFO messages or higher to the sys.stderr
+    console = log.StreamHandler()
+    console.setLevel(log.INFO)
+    # set a format which is simpler for console use
+    formatter = log.Formatter('%(levelname)-8s: %(message)s')
+    # tell the handler to use this format
+    console.setFormatter(formatter)
+    # add the handler to the root logger
+    log.getLogger('').addHandler(console)
+
+
     log.info('Databook generator')
     main()
 
