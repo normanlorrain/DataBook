@@ -49,9 +49,9 @@ class DataBook():
 
     def compile(self):
         log.info(f'Compiling')
-        c = compiler.Compiler(self.root, self.build, self.buildRef, self.output, True)
+        c = compiler.Compiler( self.root, self.build, self.buildRef, self.config['title'], True )
         c.compile()
-        log.info("Compiled source files")
+        log.info( "Compiled source files" )
 
     def link(self):
         log.info(f'Linking')

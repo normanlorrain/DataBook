@@ -16,11 +16,12 @@ import dependency
 
 
 class Compiler:
-    def __init__(self, root, build, buildRef, output, clean = False):
+    def __init__(self, root, build, buildRef, title, clean = False):
 
         self.root = root
         self.build = build
         self.buildRef = buildRef
+        self.title = title
         self.contents = contents.Contents()
         self.datestamp = datetime.date.today()
 
@@ -139,7 +140,7 @@ class Compiler:
                 documentNumber = int(match.group(1))
                 documentName =  match.group(2).strip()
                 log.info(f'    {srcFile} (reference document/attachment)')
-                watermarkText = f"REFERENCE DOCUMENT:  {sectionNumber}.{documentNumber} {sectionName} - {documentName}                  ElmTree DataBook, {self.datestamp} "
+                watermarkText = f"REFERENCE DOCUMENT:  {sectionNumber}.{documentNumber} {sectionName} - {documentName}                  {self.title}, {self.datestamp} "
                 watermarkPdf = os.path.join(tempfile.gettempdir(),'~databook_temp.pdf' )
                 pdf.generateMultipageWatermarkFile( watermarkPdf, watermarkText, os.path.join( directory, srcFile ) )
 
