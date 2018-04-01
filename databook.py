@@ -11,7 +11,7 @@ import argparse
 class DataBook():
     def __init__(self, args ):
         log.debug(f'Initializing with root: {args.root}')
-        self.root     = args.root
+        self.root     =  os.path.abspath( args.root )
         self.build    = join(self.root,'.build')
         self.buildRef = join(self.root,'.build-ref')
         self.output   = join(self.root, args.output)
