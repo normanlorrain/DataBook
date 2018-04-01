@@ -7,10 +7,7 @@
 fontfamily: librecaslon
 # Font family listed here: http://www.tug.dk/FontCatalogue/
 geometry: margin=2cm
-
 tags: [nothing, nothingness]
-#abstract: This document contains IT configuration and data sheets for ElmTree Clinic.  
-
 ...
 
 \pagenumbering{gobble}

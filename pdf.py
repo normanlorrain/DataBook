@@ -9,7 +9,7 @@ import os
 
 
 offset = 10
-_filename = os.path.join(tempfile.gettempdir(),'~elmtree_databook_temp.pdf' )
+_filename = os.path.join(tempfile.gettempdir(),'~databook_temp.pdf' )
 
 def generateWatermarkPage( watermarkText, cropBox = None ):
     if cropBox:
