@@ -10,6 +10,7 @@ import datetime
 import tempfile
 import pdf
 import contents
+import dependency
 
 
 
@@ -52,15 +53,6 @@ class Compiler:
 
 
 
-    def checkTimes(self,  directory, src, tgt ):
-        srctime = os.path.getmtime(join(directory,src))
-        tgttime = os.path.getmtime(join(directory,tgt))
-        #log.debug(srctime, tgttime)
-
-        if srctime > tgttime:
-            log.debug( f'WARNING: {tgt} may be out of date' )
-
-
 
     def getSectionNumber(self,  path):
         #log.debug('getSectionNumber: ', path)
@@ -81,25 +73,7 @@ class Compiler:
         else:
             raise Exception("can't get name")
 
-    def regexList(self,  pattern, stringList):
-        for s in stringList:
-            match = re.match(pattern, s)
-            if match:
-                return match
-        return None
 
-
-    def findSourceFile(self, otherFiles, baseName):
-        srcRegex = baseName+r"\.*"
-        # src = None
-        #log.debug('srcRegex for files:', otherFiles )
-        for file in otherFiles:
-            #log.debug("RE:",  srcRegex, file)
-            srcMatch = re.match( srcRegex, file )
-            if srcMatch:
-                return file
-
-        return None
 
 
     def createTOC(self):
@@ -125,33 +99,38 @@ class Compiler:
 
 
     def processPreparedFiles( self, sectionNumber, sectionName, directory, preparedFiles ):
-        for f in preparedFiles:
-            match = re.match(r'#(\d+)\&(.*?)\.pdf',f)
+        for filename in preparedFiles:
+            match = re.match(r'#(\d+)\&(.*?)\.pdf',filename)
             if match:
                 number = int(match.group(1))
                 name =  match.group(2).strip()
-                log.info(f'    {f} (prepared PDF file)')
-                src = join(directory,f)
+                log.info(f'    {filename} (prepared PDF file)')
+                src = join(directory,filename)
                 dst = join(self.build, f"{sectionNumber:02}-{number:02} [{sectionName}] [{name}].pdf" )
                 shutil.copy(src, dst)
                 self.contents.addSubSection(sectionNumber, number, name )
 
+
+                dependency.check( directory, filename)
+
+
+
             else:
-                log.warn(f'wrong format: {f} ')
+                log.warn(f'wrong format: {filename} ')
 
     def processDirectFiles(self,  sectionNumber, sectionName, directory, directFiles ):
-            for f in directFiles:
-                match = re.match(r'#(\d+)\%(.*?)\.pdf',f)
+            for filename in directFiles:
+                match = re.match(r'#(\d+)\%(.*?)\.pdf',filename)
                 if match:
                     number = int(match.group(1))
                     name =  match.group(2).strip()
-                    log.info(f'    {f} (directly edited PDF)')
-                    src = join(directory,f)
+                    log.info(f'    {filename} (directly edited PDF)')
+                    src = join(directory,filename)
                     dst = join(self.build, f"{sectionNumber:02}-{number:02} [{sectionName}] [{name}].pdf" )
                     shutil.copy(src, dst)
                     self.contents.addSubSection(sectionNumber, number, name )
                 else:
-                    log.warn(f'wrong format: {f} ')
+                    log.warn(f'wrong format: {filename} ')
 
     def processDownloadFiles(self, sectionNumber, sectionName, directory, downloadFiles ):
         for srcFile in downloadFiles:
