@@ -14,7 +14,7 @@ class DataBook():
         self.root     =  os.path.abspath( args.root )
         self.build    = join(self.root,'.build')
         self.buildRef = join(self.root,'.build-ref')
-        self.output   = join(self.root, args.output)
+        self.output   = os.path.abspath( args.output)
         log.debug(f'                     {self.build},')
         log.debug(f'                     {self.buildRef}')
         log.debug(f'                     {self.output}')
