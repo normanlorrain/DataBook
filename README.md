@@ -11,10 +11,6 @@ $ pip install -r requirements.txt
 
 Run the application:
 ```
-$ python -m databook --help
+$ python input_directory output_file
 ```
 
-To run the tests:
-```
-    $ pytest
-```
