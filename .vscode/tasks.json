@@ -10,7 +10,7 @@
             "args": [
                 "${workspaceFolder}\\databook.py",
                 "${workspaceFolder}\\doc",
-                "${workspaceFolder}\\doc\\output\\sample 2.pdf"
+                "${workspaceFolder}\\..\\DataBook docs.pdf"
             ],
             "group": {
                 "kind": "build",

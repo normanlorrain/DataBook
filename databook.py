@@ -1,23 +1,24 @@
-from os.path import dirname, realpath, join
+import argparse
+import glob
+import logging as log
 import os
+import sys
+from os.path import dirname, join, realpath
+
 import compiler
 import linker
-import glob 
-import sys
-import logging as log
-import argparse
 
 
 class DataBook():
     def __init__(self, args ):
-        log.debug(f'Initializing with root: {args.root}')
         self.root     =  os.path.abspath( args.root )
         self.build    = join(self.root,'.build')
         self.buildRef = join(self.root,'.build-ref')
         self.output   = os.path.abspath( args.output)
-        log.debug(f'                     {self.build},')
-        log.debug(f'                     {self.buildRef}')
-        log.debug(f'                     {self.output}')
+        log.debug(f'Initializing with root: {args.root}')
+        log.debug(f'                        {self.build},')
+        log.debug(f'                        {self.buildRef}')
+        log.debug(f'                        {self.output}')
 
         if not os.path.exists(self.root):
             raise Exception(f"Top-level (root) directory {self.root} doesn't exist.")
@@ -70,7 +71,7 @@ class DataBook():
 
 
 def main(args):
-    db = DataBook( args ) # root = dirname(dirname(realpath(__file__)))
+    db = DataBook( args ) 
     db.compile()
     db.link()
 
@@ -83,6 +84,11 @@ if __name__ == '__main__':
                         format=LONGFORMAT,
                         filename='databook.log',
                         filemode='w')
+    
+    filehandler = log.FileHandler('databook.log')
+    filehandler.setLevel(log.WARNING)
+    filehandler.setFormatter(log.Formatter(LONGFORMAT))
+    log.getLogger('').addHandler(filehandler) 
 
     # define a Handler which writes INFO messages or higher to the sys.stderr
     console = log.StreamHandler()
@@ -102,5 +108,3 @@ if __name__ == '__main__':
 
     log.info('Databook generator')
     main(args)
-
-
