@@ -1,9 +1,11 @@
-from PyPDF2 import PdfFileWriter, PdfFileReader
-import re
-import os
-import logging as log
-import subprocess
 import datetime
+import logging as log
+import os
+import re
+import subprocess
+
+from PyPDF2 import PdfFileReader, PdfFileWriter
+
 import pdf
 
 

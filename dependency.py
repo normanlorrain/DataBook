@@ -1,7 +1,6 @@
-import os
 import glob
 import logging as log
-
+import os
 
 # def findSourceFile(self, otherFiles, baseName):
 #     srcRegex = baseName+r"\.*"
@@ -97,6 +96,3 @@ if __name__ == '__main__':
     os.remove(one)
     os.remove(two)
     os.remove(three)
-
-
-

@@ -4,9 +4,9 @@
 #
 
 import logging as log
-from os.path import dirname, realpath, join
 import os
 import subprocess
+from os.path import dirname, join, realpath
 
 
 header = r"""
@@ -28,10 +28,18 @@ class Contents:
     def __init__(self):
         self.sections = dict()
 
-    def addSection(self, number, title ):
-        self.sections[number] = Section( number, title ) 
+    def addSection(self, sectionNumber, title ):
+        if sectionNumber == 0:
+            log.debug(f'skipping section 0 (cover page)')
+            return
+
+        self.sections[sectionNumber] = Section( sectionNumber, title ) 
 
     def addSubSection(self, section, number, title):
+        if section == 0:
+            log.debug(f'skipping section 0 (cover page)')
+            return
+        
         try:
             self.sections[section].subsections[number] = Section( number, title )
         except:

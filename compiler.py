@@ -1,27 +1,27 @@
-import subprocess
-from os.path import dirname, realpath, join
+import datetime
+import glob
+import logging as log
 import os
 import os.path
 import re
 import shutil
-import glob
-import logging as log
-import datetime
+import subprocess
 import tempfile
-import pdf
+from os.path import dirname, join, realpath
+
 import contents
 import dependency
-
-
+import pdf
 
 
 class Compiler:
-    def __init__(self, root, build, buildRef, title, clean = False):
+    def __init__(self, root, build, buildRef, config, clean = False):
 
         self.root = root
         self.build = build
         self.buildRef = buildRef
-        self.title = title
+        self.title = config['title']
+        self.author = config['author']
         self.contents = contents.Contents()
         self.datestamp = datetime.date.today()
 
@@ -36,20 +36,21 @@ class Compiler:
     #     prince: works, but has small icon on first page.  Won't to page breaks.
     #     context: broken
     #     pdfroff: not available on Windows
-    def compileMarkdown(self,directory, src,tgt):
+    def compileMarkdown(self,directory, src,tgt, coverPage = False):
         src = join(directory, src)
         tgt = join(self.build, tgt)
 
         metadata = join(self.root, 'metadata.yaml' )
-        cmd = f'pandoc "{src}" "{metadata}" --metadata=date:{self.datestamp} --pdf-engine=pdflatex -o "{tgt}"'
+        if coverPage: 
+            cmd = f'pandoc "{src}" "{metadata}" --metadata=title:"{self.title}" --metadata=author:"{self.author}" --metadata=date:{self.datestamp} --pdf-engine=pdflatex -o "{tgt}"'
+        else:
+            cmd = f'pandoc "{src}" "{metadata}" --pdf-engine=pdflatex -o "{tgt}"'
         log.debug(cmd)
         try:
             subprocess.run(cmd, check = True)
         except:
             log.exception ( f"Call to pandoc failed.")
             raise
-
-
 
 
 
@@ -93,7 +94,7 @@ class Compiler:
                 number = int(match.group(1))
                 name =  match.group(2).strip()
                 log.info( f'    {f} (markdown file)')
-                self.compileMarkdown( directory, f, f"{sectionNumber:02}-{number:02} [{sectionName}] [{name}].pdf" )
+                self.compileMarkdown( directory, f, f"{sectionNumber:02}-{number:02} [{sectionName}] [{name}].pdf" , sectionNumber == 0 )
                 self.contents.addSubSection(sectionNumber, number, name )
             else:
                 log.warn(f'wrong format: {f} ')
@@ -206,7 +207,3 @@ class Compiler:
                 _,_,files = next( os.walk(directory) )  # Get files in each
                 self.processFiles(directory, files)
         self.createTOC()
-
-
-
-

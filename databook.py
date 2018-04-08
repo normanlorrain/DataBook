@@ -1,11 +1,11 @@
 import argparse
+import compiler
 import glob
 import logging as log
 import os
 import sys
 from os.path import dirname, join, realpath
 
-import compiler
 import linker
 
 
@@ -50,7 +50,7 @@ class DataBook():
 
     def compile(self):
         log.info(f'Compiling')
-        c = compiler.Compiler( self.root, self.build, self.buildRef, self.config['title'], True )
+        c = compiler.Compiler( self.root, self.build, self.buildRef, self.config, True )
         c.compile()
         log.info( "Compiled source files" )
 

@@ -1,17 +1,18 @@
-% DataBook Title
-% Author Name goes here
-%  
+This document is a sample created using the **DataBook** framework.
 
+See: [https://github.com/normanlorrain/databook](https://github.com/normanlorrain/databook)
 
+ 
+The source files are found in the *doc* section of the project.
 
-This document contains a collection of PDF files:
+This document is built from collection of PDF files:
 
-* pandoc PDF files generated from Markdown
+* pandoc PDF files generated from Markdown source
 * annotated PDF files
 * exported PDF files
 * attached PDF files
 
-Generated using DataBook framework: https://github.com/normanlorrain/databook.
+# Notes
+The document contains bookmarks to each section.
 
-
-\pagenumbering{gobble}
+The document contains attachments.
