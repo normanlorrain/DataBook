@@ -57,16 +57,16 @@ class DataBook():
     def link(self):
         log.info(f'Linking')
         # Linker has a context manager, so use it like so...
-        with linker.Linker(self.build, self.buildRef, self.config['title'], self.output ) as l:
-            authoredFiles = glob.glob(os.path.join(self.build,'*.pdf' ) )
-            log.debug(f'{self.build}, {authoredFiles}')
-            l.linkAuthored( authoredFiles )
-            log.info("Linked authored files")
+        l =  linker.Linker(self.build, self.buildRef, self.config['title'], self.output )
+        authoredFiles = glob.glob(os.path.join(self.build,'*.pdf' ) )
+        log.debug(f'{self.build}, {authoredFiles}')
+        l.linkAuthored( authoredFiles )
+        log.info("Linked authored files")
 
-            referenceFiles = glob.glob(os.path.join(self.buildRef,'*.pdf' ) )
-            log.debug( referenceFiles )
-            l.linkReferences( referenceFiles )
-            log.info("Linked reference files")
+        referenceFiles = glob.glob(os.path.join(self.buildRef,'*.pdf' ) )
+        log.debug( referenceFiles )
+        l.linkReferences( referenceFiles )
+        log.info("Linked reference files")
 
 
 

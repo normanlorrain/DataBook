@@ -42,9 +42,9 @@ class Compiler:
 
         metadata = join(self.root, 'metadata.yaml' )
         if coverPage: 
-            cmd = f'pandoc "{src}" "{metadata}" --metadata=title:"{self.title}" --metadata=author:"{self.author}" --metadata=date:{self.datestamp} --pdf-engine=pdflatex -o "{tgt}"'
+            cmd = f'pandoc "{metadata}" "{src}" --metadata=title:"{self.title}" --metadata=author:"{self.author}" --metadata=date:{self.datestamp} --pdf-engine=pdflatex -o "{tgt}"'
         else:
-            cmd = f'pandoc "{src}" "{metadata}" --pdf-engine=pdflatex -o "{tgt}"'
+            cmd = f'pandoc "{metadata}" "{src}" --pdf-engine=pdflatex -o "{tgt}"'
         log.debug(cmd)
         try:
             subprocess.run(cmd, check = True)

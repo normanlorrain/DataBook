@@ -62,8 +62,9 @@ def _compileMarkdown(directory, src,tgt):
     src = join(directory, src)
     tgt = join(directory, tgt)
 
-    metadata = 'metadata.yaml'
-    cmd = f'pandoc "{src}" "{metadata}" --pdf-engine=xelatex -o "{tgt}"'
+    metadata = join(self.root, 'metadata.yaml' )
+
+    cmd = f'pandoc "{metadata}" "{src}"  --pdf-engine=xelatex -o "{tgt}"'
     log.debug(cmd)
     try:
         subprocess.run(cmd, check=True)

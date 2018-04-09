@@ -19,24 +19,14 @@ class Linker:
         self.outfileNoReferences = os.path.join(self.build, '~databook_no_references.pdf' )
         self.outfileWithReferences = f'{output}'
 
-    def __enter__(self):
-        return self
-    def __exit__(self, exct_type, exce_value, traceback):
-        log.info( 'cleaning up')
-        # if os.path.isfile(self.outfileNoReferences):
-        #     try:
-        #         os.remove( self.outfileNoReferences )
-        #     except Exception as e:
-        #         log.exception (e)
-
-
     def linkAuthored(self, authoredFiles):
         # pdfOutput PDF
         pdfOutput = PdfFileWriter()
         
-        pageNumber = 0
-        parentSection = None
-        parentSectionNumber = None
+        pdfPageNumber = 0
+        docPageNumber = 0
+        pdfParentSection = None
+        previousSectionNumber = None
 
         for original in authoredFiles:
             log.info(os.path.basename(original))
@@ -48,24 +38,29 @@ class Linker:
                 continue
             sectionNumber = int(match.group(1))
             documentNumber = int(match.group(2))
-            
             sectionName = match.group(3)
             documentName = match.group(4)
-            watermarkText = f"{sectionNumber}.{documentNumber} {sectionName} - {documentName}                  {self.title}, {self.datestamp}, page {pageNumber}"
 
-            bookmarkPage = pageNumber # Save this page number for the bookmark below
             for page in pdf.pdfPageList(original):
-                if pageNumber > 0:
+                pdfPageNumber+=1
+
+                if sectionNumber > 0:
+                    docPageNumber+= 1
+                    log.debug(f'Watermark for: {sectionNumber} - {sectionName}  pdf page: {pdfPageNumber}  doc page: {docPageNumber}' )
+                    watermarkText = f"{sectionNumber}.{documentNumber} {sectionName} - {documentName}                  {self.title}, {self.datestamp}, page {docPageNumber}"
                     watermarkPage = pdf.generateWatermarkPage( watermarkText, page.cropBox )
                     page.mergePage(watermarkPage)
-                pdfOutput.addPage(page)
-                pageNumber+= 1
+                else:
+                    log.debug('Watermak skipped for section 0')
 
-            if sectionNumber != parentSectionNumber:
-                parentSectionNumber = sectionNumber
-                parentSection = pdfOutput.addBookmark(sectionName, bookmarkPage, bold=True )
+                pdfOutput.addPage(page)
+
+            log.debug(f'Bookmarks for section: {sectionName} - {documentName} pdf: {pdfPageNumber}  doc: {docPageNumber}' )
+            if sectionNumber != previousSectionNumber:
+                previousSectionNumber = sectionNumber
+                pdfParentSection = pdfOutput.addBookmark(sectionName, pdfPageNumber-1, bold=True )
             else:
-                pdfOutput.addBookmark(documentName, bookmarkPage, parentSection )
+                pdfOutput.addBookmark(documentName, pdfPageNumber - 1, pdfParentSection )
 
 
         # finally, write "pdfOutput" to a real file
