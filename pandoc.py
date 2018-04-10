@@ -23,6 +23,7 @@ def run(src,tgt, coverPage= False):
         cmd.append(  f'--metadata=date:"{config.datestamp}"' )
 
     cmd.extend( ['--pdf-engine=xelatex',
+    f'--template={config.template}', 
         '-o',
         tgt] )
 

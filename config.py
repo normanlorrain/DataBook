@@ -9,6 +9,7 @@ import logging as log
 import os
 from os.path import dirname, join, realpath
 
+# put our configuration values in this module object, so other modules can see them just by importing.
 this = sys.modules[__name__]
 
 
@@ -36,6 +37,9 @@ def initialize():
 
 
     this.datestamp = str(datetime.date.today())
+
+    # our latex template is in the same dir as this file
+    this.template = os.path.join( os.path.dirname(__file__), 'template.tex') 
 
 
 def loadConfiguration( container ):
