@@ -7,6 +7,8 @@ $endif$
 % tried refart, refrep.... goofy
 \documentclass[12pt]{article}  
 
+\usepackage[top=1in, bottom=1in, right=2in, left=2in]{geometry}
+
 % \usepackage{sectsty}
 % \allsectionsfont{\sffamily}
 \usepackage{fontspec}
@@ -23,13 +25,24 @@ $endif$
 % \renewcommand{\maketitlehooka}{\headingfont}
 % \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
 
-\setmainfont[]{Georgia}
-\setsansfont[]{Tahoma}
-\setmonofont[]{Courier New}
+% Some Serif, Sans Serif combinations
+
+% NASA Safety Systems
+% \setmainfont[]{Minion Pro}
+% \setsansfont[]{Myriad Pro}
+
+% SICK sensor intelligence
+\setmainfont[]{Franklin Gothic Book}
+\setsansfont[]{Franklin Gothic Medium}
+
+% http://www.steptoandson.co.uk/services/10-great-web-font-combinations/
+% \setmainfont[]{Garamond}
+% \setsansfont[]{Gill Sans MT}  % or Arial Black 
+\setmonofont[]{Consolas}
 
 %\titleformat{<command>}[<shape>]{<format>}{<label>}{<sep>}{<before-code>}[<after-code>]
-\titleformat{\section}
-  {\normalfont\sffamily\Large\bfseries\color{darkolivegreen}}
+\titleformat{\section}[block]
+  {\hspace{-5em}\normalfont\sffamily\Large\bfseries\color{darkolivegreen}}
   {\thesection}{0em}{}
 
 $if(linestretch)$
@@ -114,7 +127,6 @@ $endif$
 $if(verbatim-in-note)$
 \VerbatimFootnotes % allows verbatim text in footnotes
 $endif$
-\usepackage[margin=1in]{geometry}
 
 $if(listings)$
 \usepackage{listings}
