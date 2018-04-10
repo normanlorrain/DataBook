@@ -1,7 +1,7 @@
 # Run pip install --requirement=requirements.txt to install al requirements
+reportlab
+pypdf2
 
-click==6.7
-# reportlab
-# pandoc
-# pypdf2
-
+# Install manually: 
+# pandoc: https://github.com/jgm/pandoc/releases
+# pdftk (server):  https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_server-2.02-win-setup.exe
