@@ -8,6 +8,7 @@ import os
 import subprocess
 from os.path import dirname, join, realpath
 
+import pandoc
 
 header = r"""
 \begin{center} 
@@ -61,16 +62,9 @@ class Contents:
 def _compileMarkdown(directory, src,tgt):
     src = join(directory, src)
     tgt = join(directory, tgt)
+    pandoc.run(src,tgt)
 
-    metadata = join(self.root, 'metadata.yaml' )
-
-    cmd = f'pandoc "{metadata}" "{src}"  --pdf-engine=xelatex -o "{tgt}"'
-    log.debug(cmd)
-    try:
-        subprocess.run(cmd, check=True)
-    except:
-        log.exception ( f"{cmd} failed")
-        raise
+    
 
 def test(directory):
     os.chdir(directory)

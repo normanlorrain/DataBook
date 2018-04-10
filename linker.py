@@ -7,17 +7,12 @@ import subprocess
 from PyPDF2 import PdfFileReader, PdfFileWriter
 
 import pdf
+import config
 
 
 class Linker:
-    def __init__(self,  authoredFiles, referenceFiles,title, output):
-        datestamp = datetime.date.today()
-        self.title = title
-        self.build =  authoredFiles
-        self.buildRef = referenceFiles
-        self.datestamp = datestamp
-        self.outfileNoReferences = os.path.join(self.build, '~databook_no_references.pdf' )
-        self.outfileWithReferences = f'{output}'
+    def __init__(self):
+        self.outfileNoReferences = os.path.join(config.build, '~databook_no_references.pdf' )
 
     def linkAuthored(self, authoredFiles):
         # pdfOutput PDF
@@ -47,7 +42,7 @@ class Linker:
                 if sectionNumber > 0:
                     docPageNumber+= 1
                     log.debug(f'Watermark for: {sectionNumber} - {sectionName}  pdf page: {pdfPageNumber}  doc page: {docPageNumber}' )
-                    watermarkText = f"{sectionNumber}.{documentNumber} {sectionName} - {documentName}                  {self.title}, {self.datestamp}, page {docPageNumber}"
+                    watermarkText = f"{sectionNumber}.{documentNumber} {sectionName} - {documentName}                  {config.title}, {config.datestamp}, page {docPageNumber}"
                     watermarkPage = pdf.generateWatermarkPage( watermarkText, page.cropBox )
                     page.mergePage(watermarkPage)
                 else:
@@ -75,7 +70,7 @@ class Linker:
         log.debug(f'linkReferences()')
         fileList = ' '.join(map('"{0}"'.format, referenceFiles)) 
         log.debug(fileList)
-        cmd = f'pdftk "{self.outfileNoReferences}" attach_files {fileList} output "{self.outfileWithReferences}"'
+        cmd = f'pdftk "{self.outfileNoReferences}" attach_files {fileList} output "{config.output}"'
         log.debug(cmd)
         try:
             subprocess.run(cmd, check=True)

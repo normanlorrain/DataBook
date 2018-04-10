@@ -9,51 +9,22 @@ import subprocess
 import tempfile
 from os.path import dirname, join, realpath
 
+import config
 import contents
 import dependency
+import pandoc
 import pdf
 
 
 class Compiler:
-    def __init__(self, root, build, buildRef, config, clean = False):
-
-        self.root = root
-        self.build = build
-        self.buildRef = buildRef
-        self.title = config['title']
-        self.author = config['author']
+    def __init__(self):
         self.contents = contents.Contents()
-        self.datestamp = datetime.date.today()
 
-
-        
-
-
-    # Pandoc offers following PDF support:
-    #     pdflatex   lualatex   xelatex :   all the same.  boring old LateX, but lots of flexibility.  See metadata.yaml.
-    #     wkhtmltopdf:  ugly layout
-    #     weasyprint: won't install on my python
-    #     prince: works, but has small icon on first page.  Won't to page breaks.
-    #     context: broken
-    #     pdfroff: not available on Windows
     def compileMarkdown(self,directory, src,tgt, coverPage = False):
-        src = join(directory, src)
-        tgt = join(self.build, tgt)
-
-        metadata = join(self.root, 'metadata.yaml' )
-        if coverPage: 
-            cmd = f'pandoc "{metadata}" "{src}" --metadata=title:"{self.title}" --metadata=author:"{self.author}" --metadata=date:{self.datestamp} --pdf-engine=pdflatex -o "{tgt}"'
-        else:
-            cmd = f'pandoc "{metadata}" "{src}" --pdf-engine=pdflatex -o "{tgt}"'
-        log.debug(cmd)
-        try:
-            subprocess.run(cmd, check = True)
-        except:
-            log.exception ( f"Call to pandoc failed.")
-            raise
-
-
-
+        src = join(config.root, directory, src)
+        tgt = join(config.build, tgt)
+        pandoc.run(src,tgt, coverPage)
+        
 
 
     def getSectionNumber(self,  path):
@@ -79,12 +50,12 @@ class Compiler:
 
 
     def createTOC(self):
-        with open(join(self.build, ".toc.md" ), 'w') as f:
+        with open(join(config.build, ".toc.md" ), 'w') as f:
             f.write(contents.header)
             for line in self.contents.markdownLines():
                 f.write(line)
             f.write("\n\n")
-        self.compileMarkdown( self.build, ".toc.md", "00-01 [Intro] [Table of Contents].pdf" )
+        self.compileMarkdown( config.build, ".toc.md", "00-01 [Intro] [Table of Contents].pdf" )
 
         
     def processMarkdown(self,sectionNumber, sectionName, directory, markdownFiles):
@@ -108,7 +79,7 @@ class Compiler:
                 name =  match.group(2).strip()
                 log.info(f'    {filename} (prepared PDF file)')
                 src = join(directory,filename)
-                dst = join(self.build, f"{sectionNumber:02}-{number:02} [{sectionName}] [{name}].pdf" )
+                dst = join(config.build, f"{sectionNumber:02}-{number:02} [{sectionName}] [{name}].pdf" )
                 shutil.copy(src, dst)
                 self.contents.addSubSection(sectionNumber, number, name )
 
@@ -141,12 +112,12 @@ class Compiler:
                 documentNumber = int(match.group(1))
                 documentName =  match.group(2).strip()
                 log.info(f'    {srcFile} (reference document/attachment)')
-                watermarkText = f"REFERENCE DOCUMENT:  {sectionNumber}.{documentNumber} {sectionName} - {documentName}                  {self.title}, {self.datestamp} "
+                watermarkText = f"REFERENCE DOCUMENT:  {sectionNumber}.{documentNumber} {sectionName} - {documentName}                  {config.title}, {config.datestamp} "
                 watermarkPdf = os.path.join(tempfile.gettempdir(),'~databook_temp.pdf' )
                 pdf.generateMultipageWatermarkFile( watermarkPdf, watermarkText, os.path.join( directory, srcFile ) )
 
                 # src = join(directory,srcFile)
-                dst = join(self.buildRef, f"{sectionNumber:02}-{documentNumber:02} {sectionName}-{documentName}.pdf" )
+                dst = join(config.buildRef, f"{sectionNumber:02}-{documentNumber:02} {sectionName}-{documentName}.pdf" )
                 # shutil.copy(src, dst)
                 self.contents.addSubSection(sectionNumber, documentNumber, documentName+' (Attachment)' )
 
@@ -198,7 +169,7 @@ class Compiler:
         self.processDownloadFiles( sectionNumber, sectionName, directory, downloadFiles )
 
     def compile(self):
-        _,directories,_  = next(os.walk(self.root))
+        _,directories,_  = next(os.walk(config.root))
 
         
         for directory in directories:  # Get top-level directories
