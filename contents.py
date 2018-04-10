@@ -10,12 +10,7 @@ from os.path import dirname, join, realpath
 
 import pandoc
 
-header = r"""
-\begin{center} 
-
-\huge Contents 
-
-\end{center} 
+header = r"""# Contents
 
 
 """
