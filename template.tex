@@ -16,21 +16,21 @@ $endif$
 \pagenumbering{gobble}
 
 \definecolor{darkolivegreen}{rgb}{0.33, 0.42, 0.18}
-\newfontfamily\headingfont[]{Calibri Light}
+% \newfontfamily\headingfont[]{Calibri Light}
 % \titleformat*{\section}{\LARGE\headingfont}
 % \titleformat*{\subsection}{\Large\headingfont}
 % \titleformat*{\subsubsection}{\large\headingfont}
-\renewcommand{\maketitlehooka}{\headingfont}
-\defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+% \renewcommand{\maketitlehooka}{\headingfont}
+% \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
 
 \setmainfont[]{Georgia}
-\setsansfont[]{Calibri Light}
+\setsansfont[]{Tahoma}
 \setmonofont[]{Courier New}
 
+%\titleformat{<command>}[<shape>]{<format>}{<label>}{<sep>}{<before-code>}[<after-code>]
 \titleformat{\section}
   {\normalfont\sffamily\Large\bfseries\color{darkolivegreen}}
-  {\thesection}{1em}{}
-
+  {\thesection}{0em}{}
 
 $if(linestretch)$
 \usepackage{setspace}
