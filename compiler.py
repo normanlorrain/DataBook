@@ -99,7 +99,7 @@ class Compiler:
                     name =  match.group(2).strip()
                     log.info(f'    {filename} (directly edited PDF)')
                     src = join(directory,filename)
-                    dst = join(self.build, f"{sectionNumber:02}-{number:02} [{sectionName}] [{name}].pdf" )
+                    dst = join(config.build, f"{sectionNumber:02}-{number:02} [{sectionName}] [{name}].pdf" )
                     shutil.copy(src, dst)
                     self.contents.addSubSection(sectionNumber, number, name )
                 else:
