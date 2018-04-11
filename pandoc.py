@@ -1,6 +1,8 @@
 import argparse
 import subprocess
 from os.path import join
+import os
+
 import config 
 import logging as log
 
@@ -14,8 +16,12 @@ import logging as log
 #     pdfroff: not available on Windows
 
 def run(src,tgt, coverPage= False):
-    #metadata = join(config.root, 'metadata.yaml' )
-    cmd = ['pandoc', src ]
+    oldDir = os.getcwd()
+    srcDir = os.path.dirname(src)
+    srcFile= os.path.basename( src )
+    
+
+    cmd = ['pandoc', srcFile ]
 
     if coverPage: 
         cmd.append(  f'--metadata=title:"{config.title}"'    )
@@ -23,13 +29,13 @@ def run(src,tgt, coverPage= False):
         cmd.append(  f'--metadata=date:"{config.datestamp}"' )
 
     cmd.extend( ['--pdf-engine=xelatex',
-    f'--template={config.template}', 
-        '-o',
-        tgt] )
+                f'--template={config.template}', 
+                 '-o',
+                 tgt] )
 
-    #cmd=['ls', '-l']
     log.info(cmd)
     try:
+        os.chdir(srcDir)
         subprocess.run(cmd, shell=True, check = True )
     except subprocess.CalledProcessError as e:
         log.error( e.cmd )
@@ -37,6 +43,8 @@ def run(src,tgt, coverPage= False):
         log.error( e.output) 
         log.error( e.stderr) 
         raise
+    finally:
+        os.chdir(oldDir)
 
 
 if __name__ == '__main__':
