@@ -2,13 +2,15 @@ import argparse
 import subprocess
 from os.path import join
 import os
+import glob 
+import shutil
 
 import config 
 import logging as log
 
 
 # Pandoc offers following PDF support:
-#     pdflatex   lualatex   xelatex :   all the same.  boring old LateX, but lots of flexibility.  See metadata.yaml.
+#     pdflatex   lualatex   xelatex: preferring the later; it's more capable.
 #     wkhtmltopdf:  ugly layout
 #     weasyprint: won't install on my python
 #     prince: works, but has small icon on first page.  Won't to page breaks.
@@ -20,6 +22,10 @@ def run(src,tgt, coverPage= False):
     srcDir = os.path.dirname(src)
     srcFile= os.path.basename( src )
     
+    # prior runs of pdflatex, etc. will leave trash behind if they fail.
+    for tex2pdf in glob.glob(os.path.join(srcDir, "tex2pdf.*")):
+        log.warn(f'removing old tex2pdf directory: {tex2pdf}')
+        shutil.rmtree( tex2pdf )
 
     cmd = ['pandoc', srcFile ]
 
