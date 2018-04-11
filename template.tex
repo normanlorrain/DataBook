@@ -15,7 +15,6 @@ $endif$
 \usepackage[sf,bf]{titlesec}
 \usepackage{titling}
 \usepackage{color}
-\usepackage{graphicx}
 
 \pagenumbering{gobble}
 
@@ -155,6 +154,21 @@ $if(graphics)$
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+
+% \renewcommand{\includegraphics}[1]{%
+% \begin{center}
+% \includegraphics[width=0.5\linewidth]{#1}
+% \end{center}}
+
+\let\Oldincludegraphics\includegraphics
+\renewcommand{\includegraphics}[2][]
+{
+  \begin{center}
+  \Oldincludegraphics[width=0.5\textwidth]{#2}
+  \end{center}
+}
+
+
 $endif$
 
 $if(links-as-notes)$
