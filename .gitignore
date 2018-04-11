@@ -1,7 +1,8 @@
-*.pyc
-
-venv/
-.cache/
-.*
+output/
+_archive/
+__pycache__
+.toc
+.build/
+.build-ref/
 *.log
-doc/output/sample.pdf
+tex2pdf.*/
