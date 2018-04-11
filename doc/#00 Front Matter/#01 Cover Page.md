@@ -14,7 +14,11 @@ This document is built from a collection of PDF files:
 * exported PDF files
 * attached PDF files
 
-# Note
+# Notes
 The PDF contains bookmarks to each section.
 
 The PDF contains attachments.
+
+
+![](logo.png)
+
