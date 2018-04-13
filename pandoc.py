@@ -1,9 +1,7 @@
-# import argparse
 import glob
 import os
-# import shutil
+import shutil
 import subprocess
-# from os.path import join
 
 from config import config
 import log
