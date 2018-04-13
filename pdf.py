@@ -1,5 +1,4 @@
 import io
-import logging as log
 import os
 import tempfile
 
@@ -7,6 +6,8 @@ from PyPDF2 import PdfFileReader, PdfFileWriter
 from reportlab import rl_config
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
+
+import log
 
 offset = 10
 _filename = os.path.join(tempfile.gettempdir(), "~databook_temp.pdf")

@@ -1,6 +1,7 @@
 import glob
-import logging as log
 import os
+
+import log
 
 # def findSourceFile(self, otherFiles, baseName):
 #     srcRegex = baseName+r"\.*"

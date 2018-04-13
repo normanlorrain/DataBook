@@ -1,6 +1,5 @@
 import datetime
 import glob
-import logging as log
 import os
 import os.path
 import re
@@ -12,6 +11,7 @@ from os.path import dirname, join, realpath
 import config
 import contents
 import dependency
+import log
 import pandoc
 import pdf
 

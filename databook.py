@@ -1,13 +1,13 @@
 import argparse
 import compiler
 import glob
-import logging as log
 import os
 import sys
 from os.path import dirname, join, realpath
 
-import linker
 import config
+import linker
+import log
 
 
 class DataBook():
@@ -57,25 +57,6 @@ def main():
 
 
 if __name__ == "__main__":
-    # set up logging to file - see previous section for more details
-    LONGFORMAT = "%(levelname)8s: " "%(filename)12s: " "%(lineno)4d:\t" "%(message)s"
-    SHORTFORMAT = "%(levelname)-8s: %(message)s"
-    log.basicConfig(
-        level=log.DEBUG, format=LONGFORMAT, filename="databook.log", filemode="w"
-    )
-
-    filehandler = log.FileHandler("databook.log")
-    filehandler.setLevel(log.WARNING)
-    filehandler.setFormatter(log.Formatter(LONGFORMAT))
-    log.getLogger("").addHandler(filehandler)
-
-    # define a Handler which writes INFO messages or higher to the sys.stderr
-    console = log.StreamHandler()
-    console.setLevel(log.INFO)
-    console.setFormatter(log.Formatter(SHORTFORMAT))
-    # add the handler to the root logger
-    log.getLogger("").addHandler(console)
-
     log.info("Databook generator")
 
     main()

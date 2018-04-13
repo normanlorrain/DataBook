@@ -1,13 +1,12 @@
 import argparse
+import glob
+import os
+import shutil
 import subprocess
 from os.path import join
-import os
-import glob
-import shutil
 
 import config
-import logging as log
-
+import log
 
 # Pandoc offers following PDF support:
 #     pdflatex   lualatex   xelatex: preferring the later; it's more capable.

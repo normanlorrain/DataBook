@@ -3,12 +3,13 @@
 # The goal is to generate the TOC page.compile
 #
 
-import logging as log
 import os
 import subprocess
 from os.path import dirname, join, realpath
 
+import log
 import pandoc
+
 
 header = r"""# Contents
 

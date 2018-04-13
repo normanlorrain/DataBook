@@ -1,13 +1,13 @@
 import datetime
-import logging as log
 import os
 import re
 import subprocess
 
 from PyPDF2 import PdfFileReader, PdfFileWriter
 
-import pdf
 import config
+import log
+import pdf
 
 
 class Linker:

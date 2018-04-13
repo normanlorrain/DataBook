@@ -1,13 +1,13 @@
 # Central module for configuration, with command-line and json too.
 
-import datetime
 import argparse
+import datetime
 import json
-
-import sys
-import logging as log
 import os
+import sys
 from os.path import dirname, join, realpath
+
+import log
 
 # put our configuration values in this module object, so other modules can see them just by importing.
 this = sys.modules[__name__]
