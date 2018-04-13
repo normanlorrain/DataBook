@@ -1,9 +1,6 @@
-import argparse
 import compiler
 import glob
 import os
-import sys
-from os.path import dirname, join, realpath
 
 from config import config
 import linker
