@@ -51,5 +51,3 @@ def run(src, tgt, coverPage=False):
         os.chdir(oldDir)
 
 
-if __name__ == "__main__":
-    run()

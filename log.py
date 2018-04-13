@@ -8,7 +8,7 @@ SHORTFORMAT='%(levelname)-8s: %(message)s'
 
 getLogger('').setLevel(DEBUG)
 
-def init( filename ):
+def toFile( filename ):
     filehandler = FileHandler(filename,mode='w')
     filehandler.setLevel(INFO)
     filehandler.setFormatter(Formatter(LONGFORMAT))

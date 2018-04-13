@@ -14,7 +14,7 @@ class DataBook():
 
     def __init__(self):
         if not os.path.exists(config.root):
-            raise Exception(f"Top-level (root) directory {self.root} doesn't exist.")
+            raise Exception(f"Top-level (root) directory {config.root} doesn't exist.")
 
         for d in [config.build, config.buildRef]:
             if not os.path.exists(d):
