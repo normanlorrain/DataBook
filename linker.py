@@ -5,7 +5,7 @@ import subprocess
 
 from PyPDF2 import PdfFileReader, PdfFileWriter
 
-import config
+from config import config
 import log
 import pdf
 

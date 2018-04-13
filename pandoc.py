@@ -5,7 +5,7 @@ import shutil
 import subprocess
 from os.path import join
 
-import config
+from config import config
 import log
 
 # Pandoc offers following PDF support:

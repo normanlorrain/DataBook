@@ -5,7 +5,7 @@ import os
 import sys
 from os.path import dirname, join, realpath
 
-import config
+from config import config
 import linker
 import log
 
@@ -50,7 +50,6 @@ class DataBook():
 
 
 def main():
-    config.initialize()
     db = DataBook()
     db.compile()
     db.link()

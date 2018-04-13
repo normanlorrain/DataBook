@@ -8,7 +8,7 @@ import subprocess
 import tempfile
 from os.path import dirname, join, realpath
 
-import config
+from config import config
 import contents
 import dependency
 import log
