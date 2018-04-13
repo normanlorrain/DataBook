@@ -2,10 +2,10 @@ import argparse
 import subprocess
 from os.path import join
 import os
-import glob 
+import glob
 import shutil
 
-import config 
+import config
 import logging as log
 
 
@@ -17,41 +17,40 @@ import logging as log
 #     context: broken
 #     pdfroff: not available on Windows
 
-def run(src,tgt, coverPage= False):
+
+def run(src, tgt, coverPage=False):
     oldDir = os.getcwd()
     srcDir = os.path.dirname(src)
-    srcFile= os.path.basename( src )
-    
+    srcFile = os.path.basename(src)
+
     # prior runs of pdflatex, etc. will leave trash behind if they fail.
     for tex2pdf in glob.glob(os.path.join(srcDir, "tex2pdf.*")):
-        log.warn(f'removing old tex2pdf directory: {tex2pdf}')
-        shutil.rmtree( tex2pdf )
+        log.warn(f"removing old tex2pdf directory: {tex2pdf}")
+        shutil.rmtree(tex2pdf)
 
-    cmd = ['pandoc', srcFile ]
+    cmd = ["pandoc", srcFile]
 
-    if coverPage: 
-        cmd.append(  f'--metadata=title:"{config.title}"'    )
-        cmd.append(  f'--metadata=author:"{config.author}"'  )
-        cmd.append(  f'--metadata=date:"{config.datestamp}"' )
+    if coverPage:
+        cmd.append(f'--metadata=title:"{config.title}"')
+        cmd.append(f'--metadata=author:"{config.author}"')
+        cmd.append(f'--metadata=date:"{config.datestamp}"')
 
-    cmd.extend( ['--pdf-engine=xelatex',
-                f'--template={config.template}', 
-                 '-o',
-                 tgt] )
+    cmd.extend(["--pdf-engine=xelatex", f"--template={config.template}", "-o", tgt])
 
     log.info(cmd)
     try:
         os.chdir(srcDir)
-        subprocess.run(cmd, shell=True, check = True )
+        subprocess.run(cmd, shell=True, check=True)
     except subprocess.CalledProcessError as e:
-        log.error( e.cmd )
-        log.error( e.returncode )
-        log.error( e.output) 
-        log.error( e.stderr) 
+        log.error(e.cmd)
+        log.error(e.returncode)
+        log.error(e.output)
+        log.error(e.stderr)
         raise
+
     finally:
         os.chdir(oldDir)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     run()
