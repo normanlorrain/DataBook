@@ -9,7 +9,7 @@ import tempfile
 from os.path import dirname, join, realpath
 
 from config import config
-import contents
+import toc
 import dependency
 import log
 import pandoc
@@ -19,7 +19,7 @@ import pdf
 class Compiler:
 
     def __init__(self):
-        self.contents = contents.Contents()
+        self.contents = toc.Contents()
 
     def compileMarkdown(self, directory, src, tgt, coverPage=False):
         src = join(config.root, directory, src)
@@ -49,7 +49,7 @@ class Compiler:
 
     def createTOC(self):
         with open(join(config.build, ".toc.md"), "w") as f:
-            f.write(contents.header)
+            f.write(toc.header)
             for line in self.contents.markdownLines():
                 f.write(line)
             f.write("\n\n")
