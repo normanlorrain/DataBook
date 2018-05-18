@@ -7,7 +7,7 @@ import os
 import subprocess
 from os.path import dirname, join, realpath
 
-import log
+from util import log
 import pandoc
 
 

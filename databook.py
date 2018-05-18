@@ -2,9 +2,9 @@ import compiler
 import glob
 import os
 
-from config import config
+from util.config import config
 import linker
-import log
+from util import log
 
 
 class DataBook():

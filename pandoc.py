@@ -3,8 +3,8 @@ import os
 import shutil
 import subprocess
 
-from config import config
-import log
+from util.config import config
+from util import log
 
 # Pandoc offers following PDF support:
 #     pdflatex   lualatex   xelatex: preferring the later; it's more capable.

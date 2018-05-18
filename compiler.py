@@ -8,10 +8,10 @@ import subprocess
 import tempfile
 from os.path import dirname, join, realpath
 
-from config import config
+from util.config import config
 import toc
 import dependency
-import log
+from util import log
 import pandoc
 import pdf
 
