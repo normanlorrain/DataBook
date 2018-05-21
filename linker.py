@@ -72,8 +72,7 @@ class Linker:
                 pdfParentSection = pdfOutput.addBookmark(
                     sectionName, pdfPageNumber - docPageNumber, bold=True
                 )
-            else:
-                pdfOutput.addBookmark(documentName, pdfPageNumber - docPageNumber, pdfParentSection)
+            pdfOutput.addBookmark(documentName, pdfPageNumber - docPageNumber, pdfParentSection)
 
         # finally, write "pdfOutput" to a real file
         log.debug(f"linking authored files into {self.outfileNoReferences}")
