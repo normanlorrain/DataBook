@@ -5,8 +5,8 @@ import subprocess
 
 from PyPDF2 import PdfFileReader, PdfFileWriter
 
-from config import config
-import log
+from util.config import config
+from util import log
 import pdf
 
 
@@ -22,7 +22,6 @@ class Linker:
         pdfOutput = PdfFileWriter()
 
         pdfPageNumber = 0
-        docPageNumber = 0
         pdfParentSection = None
         previousSectionNumber = None
 
@@ -46,11 +45,12 @@ class Linker:
             sectionName = match.group(3)
             documentName = match.group(4)
 
+            docPageNumber = 0
             for page in pdf.pdfPageList(original):
                 pdfPageNumber += 1
+                docPageNumber += 1
 
                 if sectionNumber > 0:
-                    docPageNumber += 1
                     log.debug(
                         f"Watermark for: {sectionNumber} - {sectionName}  pdf page: {pdfPageNumber}  doc page: {docPageNumber}"
                     )
@@ -70,10 +70,9 @@ class Linker:
             if sectionNumber != previousSectionNumber:
                 previousSectionNumber = sectionNumber
                 pdfParentSection = pdfOutput.addBookmark(
-                    sectionName, pdfPageNumber - 1, bold=True
+                    sectionName, pdfPageNumber - docPageNumber, bold=True
                 )
-            else:
-                pdfOutput.addBookmark(documentName, pdfPageNumber - 1, pdfParentSection)
+            pdfOutput.addBookmark(documentName, pdfPageNumber - docPageNumber, pdfParentSection)
 
         # finally, write "pdfOutput" to a real file
         log.debug(f"linking authored files into {self.outfileNoReferences}")

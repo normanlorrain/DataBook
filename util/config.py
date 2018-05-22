@@ -7,7 +7,7 @@ import os
 import sys
 from os.path import dirname, join, realpath
 
-import log
+from util import log
 
 # put our configuration values in this module object, so other modules can see them just by importing.
 

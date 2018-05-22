@@ -17,7 +17,7 @@ $ pip install -r requirements.txt
 
 * [Pandoc](https://github.com/jgm/pandoc/releases)
 * [pdftk (server)](https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_server-2.02-win-setup.exe)
-
+* [Latex](https://miktex.org/)  
 
 ## Usage
 

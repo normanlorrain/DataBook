@@ -1,7 +1,7 @@
 import glob
 import os
 
-import log
+from util import log
 
 
 def check(directory, filename):
