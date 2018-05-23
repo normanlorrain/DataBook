@@ -5,7 +5,7 @@ from util import log
 
 
 def check(directory, filename):
-    root, ext = os.path.splitext(filename)
+    root, _ = os.path.splitext(filename)
     fullname = os.path.join(directory, filename)
     files = glob.glob(os.path.join(directory, f"{root}.*"))
     files.remove(fullname)
