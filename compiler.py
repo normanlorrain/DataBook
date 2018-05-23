@@ -49,7 +49,9 @@ class Compiler:
             raise Exception("can't get name")
 
     def createTOC(self):
-        with open(join(config.build, ".toc.md"), "w") as f:
+        filename = join(config.build, ".toc.md")
+        log.debug(f'createTOC: opening {filename}')
+        with open(filename, "w") as f:
             f.write(toc.header)
             for line in self.contents.markdownLines():
                 f.write(line)
