@@ -20,6 +20,7 @@ class Compiler:
 
     def __init__(self):
         self.contents = toc.Contents()
+        self.sectionNumber = -1
 
     def compileMarkdown(self, directory, src, tgt, coverPage=False):
         log.debug(f"compileMarkdown( {directory}, {src}, {tgt}, {coverPage})")
@@ -31,7 +32,9 @@ class Compiler:
         # log.debug('getSectionNumber: ', path)
         match = re.match(r".*?#(\d+).*", path)
         if match:
-            return int(match.group(1))
+            #return int(match.group(1))
+            self.sectionNumber += 1
+            return self.sectionNumber
 
         else:
             return 0
