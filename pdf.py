@@ -13,7 +13,7 @@ offset = 10
 _filename = os.path.join(tempfile.gettempdir(), "~databook_temp.pdf")
 
 
-def generateWatermarkPage(watermarkText, cropBox=None):
+def generateWatermarkPage(watermarkHeader, watermarkFooter, cropBox=None):
     if cropBox:
         x1, y1 = cropBox.lowerLeft
         x2, y2 = cropBox.upperRight
@@ -31,14 +31,19 @@ def generateWatermarkPage(watermarkText, cropBox=None):
         log.debug("========================  LANDSCAPE")
         can.rotate(-90)
 
-        x = -int(y2 - offset)  # Think draw, then rotate
-        y = int(y1 + offset)  # Think draw, then rotate
+        footerX = -int( (y1+y2) /2 )  # Think draw, then rotate
+        footerY = int(x1 + offset)  # Think draw, then rotate
+        headerX = -int( (y1+y2) /2 )  # Think draw, then rotate
+        headerY = int(x2 - offset)  # Think draw, then rotate
     else:
-        x = int(x1 + offset)
-        y = int(y1 + offset)
+        footerX = int( (x1+x2) / 2)
+        footerY = int(y1 + offset)
+        headerX = int( (x1+x2) / 2)
+        headerY = int(y2 - offset)
 
-    log.debug(f"drawstring: {x},{y}")
-    can.drawString(x, y, watermarkText)
+    log.debug(f"drawstring: {footerX},{footerY}")
+    can.drawCentredString(footerX, footerY, watermarkFooter)
+    can.drawCentredString(headerX, headerY, watermarkHeader)
     can.showPage()
     can.save()
     # move to the beginning of the StringIO buffer

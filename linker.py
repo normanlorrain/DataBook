@@ -54,9 +54,10 @@ class Linker:
                     log.debug(
                         f"Watermark for: {sectionNumber} - {sectionName}  pdf page: {pdfPageNumber}  doc page: {docPageNumber}"
                     )
-                    watermarkText = f"{sectionNumber}.{documentNumber} {sectionName} - {documentName}                  {config.title}, {config.datestamp}, page {docPageNumber}"
+                    watermarkHeader = f"{sectionNumber}.{documentNumber} {sectionName} - {documentName}"
+                    watermarkFooter = f"{config.title}, {config.datestamp}, page {docPageNumber}"
                     watermarkPage = pdf.generateWatermarkPage(
-                        watermarkText, page.cropBox
+                        watermarkHeader, watermarkFooter, page.cropBox
                     )
                     page.mergePage(watermarkPage)
                 else:
