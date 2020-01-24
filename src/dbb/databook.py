@@ -1,10 +1,10 @@
-import compiler
+from . import compiler
 import glob
 import os
 
-from util.config import config
-import linker
-from util import log
+from .util.config import config
+from . import linker
+from .util import log
 
 
 class DataBook():
@@ -46,13 +46,3 @@ class DataBook():
         log.info("Linked reference files")
 
 
-def main():
-    db = DataBook()
-    db.compile()
-    db.link()
-
-
-if __name__ == "__main__":
-    log.info("Databook generator")
-
-    main()

@@ -5,9 +5,9 @@ import subprocess
 
 from PyPDF2 import PdfFileReader, PdfFileWriter
 
-from util.config import config
-from util import log
-import pdf
+from .util.config import config
+from .util import log
+from . import pdf
 
 
 class Linker:

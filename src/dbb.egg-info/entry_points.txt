@@ -1,0 +1,3 @@
+[console_scripts]
+dbb = dbb.cli:main
+

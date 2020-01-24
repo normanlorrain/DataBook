@@ -7,8 +7,8 @@ import os
 import subprocess
 from os.path import dirname, join, realpath
 
-from util import log
-import pandoc
+from .util import log
+from . import pandoc
 
 
 header = r"""# Contents

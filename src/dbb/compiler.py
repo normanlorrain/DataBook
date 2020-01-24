@@ -8,12 +8,12 @@ import subprocess
 import tempfile
 from os.path import dirname, join, realpath
 
-from util.config import config
-import toc
-import dependency
-from util import log
-import pandoc
-import pdf
+from .util.config import config
+from . import toc
+from . import dependency
+from .util import log
+from . import pandoc
+from . import pdf
 
 
 class Compiler:

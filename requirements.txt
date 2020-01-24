@@ -1,6 +1,7 @@
 # Run pip install --requirement=requirements.txt to install al requirements
 reportlab
 pypdf2
+PyYAML>=3.11
 
 # Install manually: 
 # pandoc: https://github.com/jgm/pandoc/releases

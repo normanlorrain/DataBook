@@ -7,7 +7,7 @@ from reportlab import rl_config
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 
-from util import log
+from .util import log
 
 offset = 10
 _filename = os.path.join(tempfile.gettempdir(), "~databook_temp.pdf")
