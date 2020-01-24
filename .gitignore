@@ -6,3 +6,6 @@ __pycache__
 .build-ref/
 *.log
 tex2pdf.*/
+.venv/
+.vscode/
+
