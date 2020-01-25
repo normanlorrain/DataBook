@@ -31,14 +31,14 @@ def generateWatermarkPage(watermarkHeader, watermarkFooter, cropBox=None):
         log.debug("========================  LANDSCAPE")
         can.rotate(-90)
 
-        footerX = -int( (y1+y2) /2 )  # Think draw, then rotate
+        footerX = -int((y1 + y2) / 2)  # Think draw, then rotate
         footerY = int(x1 + offset)  # Think draw, then rotate
-        headerX = -int( (y1+y2) /2 )  # Think draw, then rotate
+        headerX = -int((y1 + y2) / 2)  # Think draw, then rotate
         headerY = int(x2 - offset)  # Think draw, then rotate
     else:
-        footerX = int( (x1+x2) / 2)
+        footerX = int((x1 + x2) / 2)
         footerY = int(y1 + offset)
-        headerX = int( (x1+x2) / 2)
+        headerX = int((x1 + x2) / 2)
         headerY = int(y2 - offset)
 
     log.debug(f"drawstring: {footerX},{footerY}")

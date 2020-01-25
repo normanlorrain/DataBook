@@ -13,9 +13,8 @@ from . import log
 
 
 class _Config:
-
     def __init__(self):
-        print('configuration initializing')
+        print("configuration initializing")
         parser = argparse.ArgumentParser(
             description='Generate a "DataBook". See https://github.com/normanlorrain/DataBook.'
         )
@@ -48,5 +47,6 @@ class _Config:
         with open(configName) as json_data:
             for key, value in json.load(json_data).items():
                 setattr(self, key, value)
+
 
 config = _Config()

@@ -7,8 +7,7 @@ from . import linker
 from .util import log
 
 
-class DataBook():
-
+class DataBook:
     def __init__(self):
         if not os.path.exists(config.root):
             raise Exception(f"Top-level (root) directory {config.root} doesn't exist.")
@@ -44,5 +43,3 @@ class DataBook():
         log.debug(referenceFiles)
         l.linkReferences(referenceFiles)
         log.info("Linked reference files")
-
-

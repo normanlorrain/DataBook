@@ -4,15 +4,8 @@
 
 """
 
-# from . import cli
 from .util import log
 from .databook import DataBook
-
-# def main():
-#     """ Execute the application.
-
-#     """
-#     cli.main()
 
 
 def main():
@@ -23,13 +16,4 @@ def main():
 
 if __name__ == "__main__":
     log.info("Databook generator")
-
-    main()
-
-
-
-
-# Make the script executable.
-
-if __name__ == "__main__":
     raise SystemExit(main())

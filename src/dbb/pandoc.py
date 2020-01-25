@@ -47,5 +47,3 @@ def run(src, tgt, coverPage=False):
 
     finally:
         os.chdir(oldDir)
-
-

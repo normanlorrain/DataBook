@@ -11,7 +11,6 @@ from . import pdf
 
 
 class Linker:
-
     def __init__(self):
         self.outfileNoReferences = os.path.join(
             config.build, "~databook_no_references.pdf"
@@ -55,7 +54,9 @@ class Linker:
                         f"Watermark for: {sectionNumber} - {sectionName}  pdf page: {pdfPageNumber}  doc page: {docPageNumber}"
                     )
                     watermarkHeader = f"{sectionNumber}.{documentNumber} {sectionName} - {documentName}"
-                    watermarkFooter = f"{config.title}, {config.datestamp}, page {docPageNumber}"
+                    watermarkFooter = (
+                        f"{config.title}, {config.datestamp}, page {docPageNumber}"
+                    )
                     watermarkPage = pdf.generateWatermarkPage(
                         watermarkHeader, watermarkFooter, page.cropBox
                     )
@@ -73,7 +74,9 @@ class Linker:
                 pdfParentSection = pdfOutput.addBookmark(
                     sectionName, pdfPageNumber - docPageNumber, bold=True
                 )
-            pdfOutput.addBookmark(documentName, pdfPageNumber - docPageNumber, pdfParentSection)
+            pdfOutput.addBookmark(
+                documentName, pdfPageNumber - docPageNumber, pdfParentSection
+            )
 
         # finally, write "pdfOutput" to a real file
         log.debug(f"linking authored files into {self.outfileNoReferences}")

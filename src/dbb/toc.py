@@ -18,7 +18,6 @@ header = r"""# Contents
 
 
 class Section:
-
     def __init__(self, number, name):
         self.number = number
         self.name = name
@@ -26,7 +25,6 @@ class Section:
 
 
 class Contents:
-
     def __init__(self):
         self.sections = dict()
 
