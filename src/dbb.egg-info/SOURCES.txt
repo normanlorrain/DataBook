@@ -3,7 +3,6 @@ setup.py
 src/dbb/__init__.py
 src/dbb/__main__.py
 src/dbb/__version__.py
-src/dbb/cli.py
 src/dbb/compiler.py
 src/dbb/databook.py
 src/dbb/dependency.py
@@ -16,8 +15,3 @@ src/dbb.egg-info/SOURCES.txt
 src/dbb.egg-info/dependency_links.txt
 src/dbb.egg-info/entry_points.txt
 src/dbb.egg-info/top_level.txt
-src/dbb/api/__init__.py
-src/dbb/api/hello.py
-src/dbb/core/__init__.py
-src/dbb/core/config.py
-src/dbb/core/logger.py

@@ -16,8 +16,10 @@
             "type": "python",
             "request": "launch",
             "module": "dbb",
-            "args": [
+            "args": ["..\\ElmTree-databook", 
+                "..\\test.pdf"
             ]
-        }
+        }, 
+
     ]
 }

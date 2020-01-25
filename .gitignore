@@ -9,3 +9,36 @@ tex2pdf.*/
 .venv/
 
 
+# Ignore Python build artifacts.
+
+MANIFEST
+build/
+dist/
+*.egg-info/
+*.pyc
+*.pyo
+
+
+# Ignore pyenv files.
+
+.python-version
+
+
+# Ignore virtualenv environments.
+
+.venv*/
+
+
+# Ignore Vagrant runtime files.
+
+.vagrant/
+
+
+# Ignore OS metadata files.
+
+.DS_Store
+Thumbs.db
+
+
+
+

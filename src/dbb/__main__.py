@@ -4,7 +4,8 @@
 
 """
 
-from . import cli
+# from . import cli
+from .util import log
 from .databook import DataBook
 
 # def main():

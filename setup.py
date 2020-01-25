@@ -16,7 +16,7 @@ _config = {
     "package_dir": {"": "src"},
     "packages": find_packages("src"),
     "entry_points": {
-        "console_scripts": ("dbb = dbb.cli:main",),
+        "console_scripts": ("dbb = dbb:main",),
     },
     "data_files": ("etc/",),
 }
