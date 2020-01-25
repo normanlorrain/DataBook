@@ -55,7 +55,7 @@ class Linker:
                     )
                     watermarkHeader = f"{sectionNumber}.{documentNumber} {sectionName} - {documentName}"
                     watermarkFooter = (
-                        f"{config.title}, {config.datestamp}, page {docPageNumber}"
+                        f"{config.title}, {config.datestamp}, page {pdfPageNumber}"
                     )
                     watermarkPage = pdf.generateWatermarkPage(
                         watermarkHeader, watermarkFooter, page.cropBox
