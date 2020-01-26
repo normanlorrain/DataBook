@@ -3,7 +3,7 @@ import os
 import re
 import subprocess
 
-from PyPDF2 import PdfFileReader, PdfFileWriter
+from PyPDF2 import PdfFileWriter
 
 from .util.config import config
 from .util import log

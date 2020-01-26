@@ -7,7 +7,7 @@ import os
 import sys
 from os.path import dirname, join, realpath
 
-from . import log
+import dbb.util.log as log
 
 # put our configuration values in this module object, so other modules can see them just by importing.
 
@@ -16,13 +16,21 @@ class _Config:
     def __init__(self):
         print("configuration initializing")
         parser = argparse.ArgumentParser(
-            description='Generate a "DataBook". See https://github.com/normanlorrain/DataBook.'
+            description='Generate a "DataBook". See https://github.com/normanlorrain/DataBookBinder.'
+        )
+        parser.add_argument(
+            "-a",
+            "--attachments",
+            dest="refs",
+            action="store_true",
+            help="include attachements (references)",
         )
         parser.add_argument("root", help="root of document project")
         parser.add_argument("output", help="destination filename")
         args = parser.parse_args()
         log.debug(f"arguments: {args}")
 
+        self.refs = args.refs
         self.root = os.path.abspath(args.root)
         self.build = join(self.root, ".build")
         self.buildRef = join(self.root, ".build-ref")
@@ -31,6 +39,7 @@ class _Config:
         log.debug(f"                        {self.build},")
         log.debug(f"                        {self.buildRef}")
         log.debug(f"                        {self.output}")
+        log.debug(f"                        {self.refs}")
 
         os.chdir(self.root)
         self.loadConfiguration()

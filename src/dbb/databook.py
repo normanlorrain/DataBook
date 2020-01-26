@@ -1,6 +1,7 @@
 from . import compiler
 import glob
 import os
+import shutil
 
 from .util.config import config
 from . import linker
@@ -39,7 +40,11 @@ class DataBook:
         l.linkAuthored(authoredFiles)
         log.info("Linked authored files")
 
-        referenceFiles = glob.glob(os.path.join(config.buildRef, "*.pdf"))
-        log.debug(referenceFiles)
-        l.linkReferences(referenceFiles)
-        log.info("Linked reference files")
+        if config.refs:
+            referenceFiles = glob.glob(os.path.join(config.buildRef, "*.pdf"))
+            log.debug(referenceFiles)
+            l.linkReferences(referenceFiles)
+            log.info("Linked reference files")
+        else:
+            shutil.copy(l.outfileNoReferences, config.output)
+

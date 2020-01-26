@@ -1,9 +1,10 @@
 """ Main application entry point.
 
-    python -m DataBookBinder2  ...
+    python -m DataBookBinder  ...
 
 """
 
+from .util import config
 from .util import log
 from .databook import DataBook
 
