@@ -6,9 +6,10 @@
 import os
 import subprocess
 from os.path import dirname, join, realpath
+from collections import OrderedDict
 
-from .util import log
-from . import pandoc
+from dbb.util import log
+from dbb import pandoc
 
 
 header = r"""# Contents
@@ -21,12 +22,12 @@ class Section:
     def __init__(self, number, name):
         self.number = number
         self.name = name
-        self.subsections = dict()
+        self.subsections = OrderedDict()
 
 
 class Contents:
     def __init__(self):
-        self.sections = dict()
+        self.sections = OrderedDict()
 
     def addSection(self, sectionNumber, title):
         if sectionNumber == 0:
@@ -47,18 +48,17 @@ class Contents:
             raise
 
     def __iter__(self):
-        for section in sorted(self.sections.keys()):
-            for subsection in sorted(self.sections[section].subsections.keys()):
-                yield section, subsection, self.sections[section].subsections[
-                    subsection
-                ].name
+        for section in self.sections:
+            for subsection in section.subsections:
+                yield section, subsection, subsection.name
 
     def markdownLines(self):
-        for section in sorted(self.sections.keys()):
-            yield f"\n**{self.sections[section].number} {self.sections[section].name}**\n"
+        for _, section in self.sections.items():
+            yield f"\n**{section.number} {section.name}**\n"
 
-            for subsection in sorted(self.sections[section].subsections.keys()):
-                yield f"\n\\quad{self.sections[section].subsections[subsection].number} {self.sections[section].subsections[subsection].name} \n"
+            for _, subsection in section.subsections.items():
+
+                yield f"\n{section.number}.{subsection.number} {subsection.name} \n"
 
 
 def _compileMarkdown(directory, src, tgt):
