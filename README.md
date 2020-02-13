@@ -15,20 +15,18 @@ $ pip install -r requirements.txt
 
 ### Install the external tools
 
-* [Pandoc](https://github.com/jgm/pandoc/releases)
 * [pdftk (server)](https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_server-2.02-win-setup.exe)
-* [Latex](https://miktex.org/)  
 
 ## Usage
 
 ```
-$ python ..\databook.py {input directory} {output pdf file name}
+$ dbb {input directory} {output pdf file name}
 ```
 
 ## Example
 
 In the doc/ directory of this project, run the application to generate example documentation:
 ```
-$ python ..\databook.py . databookbinder.pdf
+$ dbb . databookbinder.pdf
 ```
 

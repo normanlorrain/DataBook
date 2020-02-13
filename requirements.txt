@@ -4,5 +4,4 @@ pypdf2
 PyYAML>=3.11
 
 # Install manually: 
-# pandoc: https://github.com/jgm/pandoc/releases
 # pdftk (server):  https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_server-2.02-win-setup.exe

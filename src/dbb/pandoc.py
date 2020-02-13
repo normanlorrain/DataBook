@@ -21,18 +21,18 @@ def run(src, tgt, coverPage=False):
     srcFile = os.path.basename(src)
 
     # prior runs of pdflatex, etc. will leave trash behind if they fail.
-    for tex2pdf in glob.glob(os.path.join(srcDir, "tex2pdf.*")):
-        log.warn(f"removing old tex2pdf directory: {tex2pdf}")
-        shutil.rmtree(tex2pdf)
+    # for tex2pdf in glob.glob(os.path.join(srcDir, "tex2pdf.*")):
+    #     log.warn(f"removing old tex2pdf directory: {tex2pdf}")
+    #     shutil.rmtree(tex2pdf)
 
-    cmd = ["pandoc", srcFile]
+    cmd = ["mdpdf", "-o", tgt, srcFile]
 
-    if coverPage:
-        cmd.append(f'--metadata=title:"{config.title}"')
-        cmd.append(f'--metadata=author:"{config.author}"')
-        cmd.append(f'--metadata=date:"{config.datestamp}"')
+    # if coverPage:
+    #     cmd.append(f'--metadata=title:"{config.title}"')
+    #     cmd.append(f'--metadata=author:"{config.author}"')
+    #     cmd.append(f'--metadata=date:"{config.datestamp}"')
 
-    cmd.extend(["--pdf-engine=xelatex", f"--template={config.template}", "-o", tgt])
+    # cmd.extend(["--pdf-engine=xelatex", f"--template={config.template}", "-o", tgt])
 
     log.info(cmd)
     try:
