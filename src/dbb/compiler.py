@@ -13,7 +13,7 @@ from . import toc
 from . import dependency
 from .util import log
 from . import pandoc
-from . import pdf
+# from . import pdf
 
 
 class Compiler:
@@ -136,9 +136,9 @@ class Compiler:
                 log.info(f"    {filename} (reference document/attachment)")
                 watermarkText = f"REFERENCE DOCUMENT:  {sectionNumber}.{documentNumber} {sectionName} - {documentName}                  {config.title}, {config.datestamp} "
                 watermarkPdf = os.path.join(tempfile.gettempdir(), "~databook_temp.pdf")
-                pdf.generateMultipageWatermarkFile(
-                    watermarkPdf, watermarkText, os.path.join(directory, filename)
-                )
+                # pdf.generateMultipageWatermarkFile(
+                #     watermarkPdf, watermarkText, os.path.join(directory, filename)
+                # )
 
                 # src = join(directory,filename)
                 dst = join(
